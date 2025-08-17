@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Web Crafters - Bespoke Digital Experiences</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Lora', serif;
+            background-color: #f9f6f1;
+            color: #3d3d3d;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><filter id="f"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23f)" opacity="0.02"/></svg>');
+        }
+        .font-script {
+            font-family: 'Caveat', cursive;
+        }
+        .header-scrolled {
+            background-color: rgba(249, 246, 241, 0.85);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .scribble-link {
+            position: relative;
+            text-decoration: none;
+            color: inherit;
+        }
+        .scribble-link svg {
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 100%;
+            height: 12px;
+            stroke: #e58a8a;
+            stroke-width: 2;
+            fill: none;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            transition: stroke-dashoffset 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+        }
+        .scribble-link:hover svg {
+            stroke-dashoffset: 0;
+        }
+        .portfolio-card {
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            box-shadow: 10px 10px 0px #e0e0e0;
+            border: 2px solid #3d3d3d;
+        }
+        .portfolio-card:hover {
+            transform: translate(-5px, -5px);
+            box-shadow: 15px 15px 0px #e58a8a;
+        }
+        .cta-button {
+            background-color: #3d3d3d;
+            color: #f9f6f1;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            background-color: #e58a8a;
+            color: #3d3d3d;
+        }
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .mobile-menu.is-open {
+            transform: translateX(0);
+        }
+        #menu-toggle .line { transition: all 0.3s ease-in-out; }
+        #menu-toggle.is-active .line-1 { transform: translateY(6px) rotate(45deg); }
+        #menu-toggle.is-active .line-2 { opacity: 0; }
+        #menu-toggle.is-active .line-3 { transform: translateY(-6px) rotate(-45deg); }
+        .modal-overlay { transition: opacity 0.3s ease; }
+        .modal-content { transition: transform 0.3s ease, opacity 0.3s ease; }
+        .modal-hidden { pointer-events: none; }
+        .modal-hidden .modal-overlay { opacity: 0; }
+        .modal-hidden .modal-content { opacity: 0; transform: translateY(20px) scale(0.95); }
+        .magnetic-link { transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1); }
+        .client-logo {
+            transition: opacity 0.3s ease;
+            opacity: 0.5;
+            filter: grayscale(100%);
+        }
+        .client-logo:hover {
+            opacity: 1;
+            filter: grayscale(0%);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header id="header" class="fixed w-full z-30 top-0 transition-all duration-300">
+        <nav class="container mx-auto px-6 py-5 flex justify-between items-center">
+            <a href="#" class="text-3xl font-script font-bold magnetic-link">Global Web Crafters</a>
+            <div class="hidden md:flex items-center space-x-10">
+                <a href="#about" class="font-semibold scribble-link magnetic-link">
+                    About
+                    <svg viewBox="0 0 100 12"><path d="M2 10 C 20 2, 80 2, 98 10" /></svg>
+                </a>
+                <a href="#services" class="font-semibold scribble-link magnetic-link">
+                    Services
+                    <svg viewBox="0 0 100 12"><path d="M2 10 C 20 2, 80 2, 98 10" /></svg>
+                </a>
+                <a href="#portfolio" class="font-semibold scribble-link magnetic-link">
+                    Work
+                    <svg viewBox="0 0 100 12"><path d="M2 10 C 20 2, 80 2, 98 10" /></svg>
+                </a>
+                <a href="#contact" class="font-semibold scribble-link magnetic-link">
+                    Contact
+                    <svg viewBox="0 0 100 12"><path d="M2 10 C 20 2, 80 2, 98 10" /></svg>
+                </a>
+            </div>
+            <button id="menu-toggle" class="md:hidden z-50">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path class="line line-1" d="M3 12H21" stroke="#3d3d3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path class="line line-2" d="M3 6H21" stroke="#3d3d3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path class="line line-3" d="M3 18H21" stroke="#3d3d3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </nav>
+    </header>
+    
+    <!-- Mobile Menu Panel -->
+    <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 h-full w-full bg-[#f9f6f1] z-20 flex items-center justify-center">
+        <div class="text-center">
+            <a href="#about" class="block text-4xl font-semibold my-6 mobile-link">About</a>
+            <a href="#services" class="block text-4xl font-semibold my-6 mobile-link">Services</a>
+            <a href="#portfolio" class="block text-4xl font-semibold my-6 mobile-link">Work</a>
+            <a href="#contact" class="block text-4xl font-semibold my-6 mobile-link">Contact</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center relative overflow-hidden">
+        <div class="container mx-auto px-6 z-10">
+            <div class="md:w-3/4 lg:w-2/3">
+                <h1 class="text-5xl md:text-7xl font-bold leading-tight">
+                    <span class="block" data-reveal>We turn ideas into</span>
+                    <span class="block font-script text-6xl md:text-8xl text-[#e58a8a]" data-reveal>artful experiences.</span>
+                </h1>
+                <p class="mt-8 text-xl text-gray-700 max-w-2xl" data-reveal>
+                    A design studio that blends strategy, creativity, and technology to build digital narratives that resonate and inspire.
+                </p>
+            </div>
+        </div>
+        <div class="absolute top-1/4 -right-20 w-64 h-64 bg-[#e58a8a] opacity-10 rounded-full parallax-el" data-speed="0.1"></div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 md:py-40 overflow-hidden relative">
+        <div class="container mx-auto px-6">
+            <div class="md:relative md:h-[120vh]">
+                <div class="about-item mb-8 md:absolute md:top-0 md:left-0 md:w-1/2">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" onerror="this.onerror=null;this.src='https://placehold.co/800x1000/e2e8f0/3d3d3d?text=Studio';" alt="A creative team collaborating in a modern office space" class="w-full h-full object-cover rounded-lg shadow-xl">
+                </div>
+                <div class="about-item mb-8 md:absolute md:top-[30vh] md:right-0 md:w-1/2 p-8 bg-[#f9f6f1] bg-opacity-80 backdrop-blur-sm rounded-lg shadow-lg">
+                    <h2 class="text-4xl font-bold mb-4">Our Philosophy</h2>
+                    <p class="text-lg text-gray-700">We believe that the best digital products are born from a place of authenticity. Our process is collaborative and deeply personal. We take the time to understand the heart of your brand, allowing us to craft experiences that are not just visually stunning, but also deeply meaningful.</p>
+                </div>
+                <div class="about-item md:absolute md:top-[80vh] md:left-0 md:w-1/2 p-8">
+                     <h3 class="font-script text-5xl text-[#e58a8a]">Human-centered design is our compass.</h3>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-0 -left-24 w-80 h-80 border-4 border-[#e58a8a] opacity-20 rounded-full parallax-el" data-speed="-0.1"></div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 md:py-40">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 md:mb-20">
+                <h2 class="text-5xl font-bold" data-reveal>Our Services</h2>
+                <p class="mt-4 text-xl text-gray-700" data-reveal>What we bring to the table.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-12">
+                <div class="text-center" data-reveal>
+                    <h3 class="text-3xl font-bold mb-4">UI/UX Design</h3>
+                    <p class="text-gray-600">We craft intuitive and beautiful interfaces that are a joy to use, ensuring your users have a memorable and seamless experience.</p>
+                </div>
+                <div class="text-center" data-reveal>
+                    <h3 class="text-3xl font-bold mb-4">Web Development</h3>
+                    <p class="text-gray-600">From elegant landing pages to complex web applications, we write clean, scalable code that brings your vision to life.</p>
+                </div>
+                <div class="text-center" data-reveal>
+                    <h3 class="text-3xl font-bold mb-4">Brand Strategy</h3>
+                    <p class="text-gray-600">We help you define your brand's voice and visual identity, creating a cohesive narrative that connects with your audience.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-24 md:py-40 bg-[#ece7de]">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 md:mb-20">
+                <h2 class="text-5xl font-bold" data-reveal>Our Canvas</h2>
+                <p class="mt-4 text-xl text-gray-700" data-reveal>A selection of stories we've helped tell.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-12 md:gap-20">
+                <!-- Portfolio Card 1 -->
+                <div class="portfolio-card bg-white rounded-lg group relative overflow-hidden" data-reveal>
+                    <img src="https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" onerror="this.onerror=null;this.src='https://placehold.co/800x600/a890fe/3d3d3d';" alt="A stylish and modern e-commerce website on a laptop" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-500 flex items-end p-8">
+                        <div class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                            <h3 class="text-3xl font-bold">Luxe & Co.</h3>
+                            <p class="mt-2">A sophisticated e-commerce experience.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Portfolio Card 2 -->
+                <div class="portfolio-card bg-white rounded-lg mt-0 md:mt-20 group relative overflow-hidden" data-reveal>
+                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" onerror="this.onerror=null;this.src='https://placehold.co/800x600/fdc55e/3d3d3d';" alt="A dynamic and engaging conference event" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-500 flex items-end p-8">
+                        <div class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                            <h3 class="text-3xl font-bold">Innovate Now</h3>
+                            <p class="mt-2">A bold digital platform for a tech conference.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Portfolio Card 3 -->
+                <div class="portfolio-card bg-white rounded-lg group relative overflow-hidden" data-reveal>
+                    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" onerror="this.onerror=null;this.src='https://placehold.co/800x600/84fab0/3d3d3d';" alt="An elegant and cozy restaurant interior" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-500 flex items-end p-8">
+                        <div class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                            <h3 class="text-3xl font-bold">The Green Table</h3>
+                            <p class="mt-2">An organic website for a restaurant.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Portfolio Card 4 -->
+                <div class="portfolio-card bg-white rounded-lg mt-0 md:mt-20 group relative overflow-hidden" data-reveal>
+                    <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" onerror="this.onerror=null;this.src='https://placehold.co/800x600/f78ca0/3d3d3d';" alt="A stunning landscape photo of mountains and a lake" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-500 flex items-end p-8">
+                        <div class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                            <h3 class="text-3xl font-bold">Nomad's Journal</h3>
+                            <p class="mt-2">An immersive travel blog.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Client Logos Section -->
+    <section id="clients" class="py-24">
+        <div class="container mx-auto px-6">
+            <h3 class="text-center text-gray-500 text-lg mb-12" data-reveal>Trusted by innovative brands worldwide</h3>
+            <div class="flex flex-wrap justify-center items-center gap-x-16 gap-y-10">
+                 <!-- SVG Logos for better quality -->
+                <div class="client-logo h-8" data-reveal>
+                    <svg role="img" width="100" height="32" viewBox="0 0 100 32" fill="#3d3d3d" xmlns="http://www.w3.org/2000/svg"><path d="M23.6,2.4V31.4H16.8V2.4H23.6z M39.3,31.4h-6.8V2.4h6.8V31.4z M55,31.4h-6.8V2.4h6.8V31.4z M70.7,31.4H64V2.4h6.8V31.4z M86.4,31.4h-6.8V2.4h6.8V31.4z M9.9,31.4H3.1V2.4h6.8V31.4z"/></svg>
+                </div>
+                <div class="client-logo h-10" data-reveal>
+                     <svg role="img" width="80" height="40" viewBox="0 0 80 40" fill="#3d3d3d" xmlns="http://www.w3.org/2000/svg"><path d="M40,0C17.9,0,0,17.9,0,40h10C10,23.4,23.4,10,40,10s30,13.4,30,30h10C80,17.9,62.1,0,40,0z"/></svg>
+                </div>
+                <div class="client-logo h-7" data-reveal>
+                    <svg role="img" width="110" height="28" viewBox="0 0 110 28" fill="#3d3d3d" xmlns="http://www.w3.org/2000/svg"><path d="M0,28V0h12.8v28H0z M21.6,28V0h12.8v28H21.6z M50.1,28L35.8,0h14.2l7.1,18.2L64.2,0h14.2L64.1,28H50.1z M84.4,28V0h12.8v28H84.4z M110,14L97.2,0v28L110,14z"/></svg>
+                </div>
+                <div class="client-logo h-8" data-reveal>
+                    <svg role="img" width="100" height="32" viewBox="0 0 100 32" fill="#3d3d3d" xmlns="http://www.w3.org/2000/svg"><path d="M16,0C7.2,0,0,7.2,0,16s7.2,16,16,16s16-7.2,16-16S24.8,0,16,0z M84,0c-8.8,0-16,7.2-16,16s7.2,16,16,16s16-7.2,16-16S92.8,0,84,0z M50,32L34,0h16l8,16l8-16h16L66,32H50z"/></svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 md:py-40">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-5xl md:text-7xl font-bold mb-6" data-reveal>Let's create something <span class="font-script text-[#e58a8a]">beautiful</span> together.</h2>
+            <p class="text-xl text-gray-700 max-w-2xl mx-auto mb-12" data-reveal>We're always excited to hear about new ideas and projects.</p>
+            <button id="open-contact-modal" class="inline-block text-xl font-bold px-12 py-5 rounded-full cta-button magnetic-link" data-reveal>
+                Start the Conversation
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#ece7de] py-16">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-8 text-center md:text-left">
+                <div>
+                    <a href="#" class="text-3xl font-script font-bold">Global Web Crafters</a>
+                    <p class="mt-4 text-gray-600">Crafting the digital world, beautifully.</p>
+                </div>
+                <div class="md:mx-auto">
+                    <h4 class="font-bold text-lg mb-4">Navigate</h4>
+                    <ul>
+                        <li><a href="#about" class="text-gray-600 hover:text-black">About</a></li>
+                        <li><a href="#services" class="text-gray-600 hover:text-black">Services</a></li>
+                        <li><a href="#portfolio" class="text-gray-600 hover:text-black">Work</a></li>
+                        <li><a href="#contact" class="text-gray-600 hover:text-black">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="md:ml-auto">
+                    <h4 class="font-bold text-lg mb-4">Connect</h4>
+                    <div class="flex justify-center md:justify-start space-x-6 text-2xl">
+                        <a href="#" class="text-gray-600 hover:text-black"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-black"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-black"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-gray-300 pt-8 text-center text-gray-500">
+                <p>&copy; 2024 Global Web Crafters. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Contact Modal -->
+    <div id="contact-modal" class="modal-hidden fixed inset-0 z-50 flex items-center justify-center p-6">
+        <div class="modal-overlay absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+        <div class="modal-content relative w-full max-w-lg bg-[#f9f6f1] rounded-lg shadow-xl p-8 md:p-12">
+            <button id="close-contact-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div id="form-container">
+                <h2 class="text-3xl font-bold mb-2">Contact Us</h2>
+                <p class="text-gray-600 mb-8">Send us a message and we'll get back to you.</p>
+                <form id="contact-form">
+                    <div class="mb-6"><label for="name" class="block text-sm font-semibold mb-2">Name</label><input type="text" id="name" name="name" required class="w-full px-4 py-3 bg-white border-2 border-gray-300 rounded-md focus:outline-none focus:border-[#e58a8a] transition-colors"></div>
+                    <div class="mb-6"><label for="email" class="block text-sm font-semibold mb-2">Email</label><input type="email" id="email" name="email" required class="w-full px-4 py-3 bg-white border-2 border-gray-300 rounded-md focus:outline-none focus:border-[#e58a8a] transition-colors"></div>
+                    <div class="mb-8"><label for="message" class="block text-sm font-semibold mb-2">Message</label><textarea id="message" name="message" rows="4" required class="w-full px-4 py-3 bg-white border-2 border-gray-300 rounded-md focus:outline-none focus:border-[#e58a8a] transition-colors"></textarea></div>
+                    <button type="submit" class="w-full text-lg font-bold py-4 rounded-full cta-button">Send Message</button>
+                </form>
+            </div>
+            <div id="success-message" class="hidden text-center">
+                 <h2 class="text-3xl font-bold mb-4">Thank You!</h2>
+                 <p class="text-gray-600 text-lg">Your message has been sent successfully. We'll be in touch soon.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- Magnetic Buttons ---
+        const magneticLinks = document.querySelectorAll('.magnetic-link');
+        magneticLinks.forEach(link => {
+            link.addEventListener('mousemove', e => {
+                const { offsetX, offsetY, target } = e;
+                const { clientWidth, clientHeight } = target;
+                const x = (offsetX / clientWidth - 0.5) * 30;
+                const y = (offsetY / clientHeight - 0.5) * 30;
+                gsap.to(target, { x: x, y: y, duration: 0.5, ease: 'power3.out' });
+            });
+            link.addEventListener('mouseleave', e => {
+                gsap.to(e.target, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.3)' });
+            });
+        });
+
+        // --- Mobile Menu Toggle ---
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('is-active');
+            mobileMenu.classList.toggle('is-open');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('is-active');
+                mobileMenu.classList.remove('is-open');
+            });
+        });
+
+        // --- Header Style on Scroll ---
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('header-scrolled', window.scrollY > 50);
+        });
+
+        // --- Scrollytelling for About Section ---
+        const aboutItems = gsap.utils.toArray('.about-item');
+        aboutItems.forEach((item, i) => {
+            gsap.fromTo(item, 
+                { autoAlpha: 0, y: 100 }, 
+                { 
+                    autoAlpha: 1, 
+                    y: 0,
+                    duration: 1,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: item,
+                        start: 'top 80%',
+                        toggleActions: 'play none none reverse'
+                    }
+                }
+            );
+        });
+
+        // --- General Reveal Animations ---
+        const revealElements = document.querySelectorAll('[data-reveal]');
+        revealElements.forEach(el => {
+            gsap.from(el, {
+                opacity: 0,
+                y: 50,
+                duration: 1,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 90%',
+                    toggleActions: 'play none none none',
+                }
+            });
+        });
+
+        // --- Parallax Elements ---
+        const parallaxElements = document.querySelectorAll('.parallax-el');
+        parallaxElements.forEach(el => {
+            const speed = el.dataset.speed || 0.1;
+            gsap.to(el, {
+                y: (i, target) => ScrollTrigger.maxScroll(window) * speed,
+                ease: "none",
+                scrollTrigger: {
+                    start: 0,
+                    end: "max",
+                    scrub: true,
+                }
+            });
+        });
+
+        // --- Contact Modal Logic ---
+        const contactModal = document.getElementById('contact-modal');
+        const openModalBtn = document.getElementById('open-contact-modal');
+        const closeModalBtn = document.getElementById('close-contact-modal');
+        const modalOverlay = contactModal.querySelector('.modal-overlay');
+        const contactForm = document.getElementById('contact-form');
+        const formContainer = document.getElementById('form-container');
+        const successMessage = document.getElementById('success-message');
+
+        const openModal = () => contactModal.classList.remove('modal-hidden');
+        const closeModal = () => contactModal.classList.add('modal-hidden');
+
+        openModalBtn.addEventListener('click', openModal);
+        closeModalBtn.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', closeModal);
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            formContainer.classList.add('hidden');
+            successMessage.classList.remove('hidden');
+        });
+    });
+    </script>
+
+</body>
+</html>
