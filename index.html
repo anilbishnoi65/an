@@ -27,48 +27,33 @@
         body { font-family: var(--body-font); margin: 0; padding: 0; line-height: 1.7; color: var(--dark-color); background-color: #fff; -webkit-font-smoothing: antialiased; }
         .container { width: 90%; max-width: 1100px; margin: auto; overflow: hidden; }
 
-        /* --- Frosted Glass Header --- */
+        /* --- FIXED: Solid Header --- */
         header {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: #fff; /* Reverted from transparent to solid white */
             padding: 1rem 0;
             border-bottom: 1px solid #eaeaea;
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: var(--shadow-sm);
         }
         header .container { display: flex; justify-content: space-between; align-items: center; }
         header .logo { font-size: 1.8rem; font-weight: 700; color: var(--primary-color); text-decoration: none; }
-        nav { display: flex; align-items: center; }
-        nav a { color: #555; text-decoration: none; margin: 0 15px; font-weight: 500; cursor: pointer; transition: color 0.3s ease; padding-bottom: 5px; border-bottom: 2px solid transparent; }
-        nav a:hover { color: var(--primary-color); }
-        nav a.active { color: var(--primary-color); font-weight: 600; border-bottom: 2px solid var(--primary-color); }
+        
+        /* Desktop Navigation */
+        #main-nav { display: flex; align-items: center; }
+        #main-nav a { color: #555; text-decoration: none; margin: 0 15px; font-weight: 500; cursor: pointer; transition: color 0.3s ease; padding-bottom: 5px; border-bottom: 2px solid transparent; }
+        #main-nav a:hover { color: var(--primary-color); }
+        #main-nav a.active { color: var(--primary-color); font-weight: 600; border-bottom: 2px solid var(--primary-color); }
 
         /* --- Gradient Buttons --- */
-        .btn {
-            display: inline-block;
-            background-image: linear-gradient(45deg, var(--secondary-color-start), var(--secondary-color-end));
-            color: #fff !important;
-            padding: 12px 28px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            box-shadow: var(--shadow-md);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
+        .btn { display: inline-block; background-image: linear-gradient(45deg, var(--secondary-color-start), var(--secondary-color-end)); color: #fff !important; padding: 12px 28px; border-radius: 8px; text-decoration: none; font-weight: 600; border: none; cursor: pointer; box-shadow: var(--shadow-md); transition: transform 0.2s ease, box-shadow 0.2s ease; }
         .btn:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
 
         /* --- Page & Section Styles --- */
         .page-section { display: none; } .page-section.active { display: block; }
         .section { padding: 80px 0; text-align: center; }
         .section h2 { font-size: 2.8rem; margin-bottom: 50px; font-weight: 600; }
-        .page-header { background: var(--light-color); padding: 60px 0; text-align: center; }
-        .page-header h1 { font-size: 3rem; color: var(--primary-color); }
-        .page-header p { font-size: 1.2rem; color: #666; max-width: 700px; margin: 10px auto 0; }
-        .section:nth-of-type(odd) { background-color: var(--light-color); }
         .hero { background: linear-gradient(135deg, #f4f8ff, #eef4ff); padding: 100px 0; }
         .hero h1 { font-size: 3.5rem; margin-bottom: 15px; font-weight: 700; color: var(--primary-color); }
         .hero p { font-size: 1.25rem; max-width: 650px; margin: 0 auto 40px auto; color: #555; }
@@ -148,13 +133,86 @@
         footer { background: var(--dark-color); color: #ccc; text-align: center; padding: 40px 0; }
         footer a { color: #fff; text-decoration: none; margin: 0 10px; }
 
-        /* --- Responsive Design --- */
+        /* --- MOBILE RESPONSIVE STYLES --- */
+        #hamburger-btn { display: none; }
+
+        @media (max-width: 992px) {
+            #main-nav {
+                position: fixed;
+                top: 0;
+                right: -300px; /* Hidden off-screen */
+                width: 300px;
+                height: 100%;
+                background: #fff;
+                box-shadow: var(--shadow-lg);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 80px 30px 30px;
+                transition: right 0.4s ease-in-out;
+                z-index: 1002;
+            }
+            #main-nav.open {
+                right: 0; /* Slide in */
+            }
+            #main-nav a {
+                margin: 15px 0;
+                font-size: 1.2rem;
+                width: 100%;
+            }
+            #main-nav .btn {
+                margin-top: 20px;
+                width: 100%;
+                text-align: center;
+            }
+            
+            #hamburger-btn {
+                display: block;
+                z-index: 1003;
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 10px;
+            }
+            .hamburger-icon {
+                width: 30px;
+                height: 2px;
+                background-color: var(--dark-color);
+                position: relative;
+                transition: background-color 0.3s;
+            }
+            .hamburger-icon::before, .hamburger-icon::after {
+                content: '';
+                position: absolute;
+                width: 30px;
+                height: 2px;
+                background-color: var(--dark-color);
+                left: 0;
+                transition: transform 0.4s ease-in-out;
+            }
+            .hamburger-icon::before { top: -8px; }
+            .hamburger-icon::after { bottom: -8px; }
+
+            /* Hamburger animation when menu is open */
+            body.nav-open .hamburger-icon { background-color: transparent; }
+            body.nav-open .hamburger-icon::before { transform: translateY(8px) rotate(45deg); }
+            body.nav-open .hamburger-icon::after { transform: translateY(-8px) rotate(-45deg); }
+        }
+
         @media (max-width: 768px) {
-            header .container { flex-direction: column; gap: 15px; }
-            .hero h1, .page-header h1 { font-size: 2.5rem; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1.1rem; }
+            .section h2, .page-header h1 { font-size: 2.2rem; }
+            .section { padding: 60px 0; }
+            
             .modal-promo { display: none; }
             .modal-content { flex-direction: column; max-width: 400px; }
             .modal-form { width: 100%; box-sizing: border-box; padding: 30px; }
+            
+            .wizard { padding: 30px; }
+            .wizard h2 { font-size: 1.8rem; }
+            .progress-label { display: none; }
+            .theme-grid { grid-template-columns: 1fr 1fr; gap: 15px; }
+
             .contact-grid { grid-template-columns: 1fr; }
         }
     </style>
@@ -165,7 +223,7 @@
         <header>
             <div class="container">
                 <a href="#" class="logo nav-link" data-target="home">DukaanLaunch</a>
-                <nav>
+                <nav id="main-nav">
                     <a class="nav-link active" data-target="home">Home</a>
                     <a class="nav-link" data-target="features">Features</a>
                     <a class="nav-link" data-target="pricing">Pricing</a>
@@ -173,83 +231,138 @@
                     <a class="nav-link" data-target="contact">Contact</a>
                     <a href="#" class="btn open-modal-btn">Start Free Trial</a>
                 </nav>
+                <button id="hamburger-btn">
+                    <div class="hamburger-icon"></div>
+                </button>
             </div>
         </header>
 
         <main>
-            <section id="home" class="page-section active">
-                <div class="hero"><div class="container"><h1>अपनी दुकान, अब ऑनलाइन.</h1><p>Go from the Clock Tower market to customers across India. Create your beautiful online store in minutes. No coding required.</p><a href="#" class="btn open-modal-btn">Start Your 14-Day Free Trial</a></div></div>
-                <div class="section"><div class="container"><h2>Ready in 3 Simple Steps</h2><div class="steps"><div class="step"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.098 19.902a3.75 3.75 0 005.304 0l5.304-5.304a3.75 3.75 0 000-5.304l-5.304-5.304a3.75 3.75 0 00-5.304 0L4.098 8.25"/></svg><h3>1. Choose a Design</h3><p>Pick from beautiful templates inspired by Rajasthani art and modern design.</p></div><div class="step"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/></svg><h3>2. Add Your Products</h3><p>Upload photos of your handicrafts, spices, or textiles with a few clicks.</p></div><div class="step"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/></svg><h3>3. Start Selling</h3><p>Accept payments through UPI, cards, and more. We handle the tech, you handle the business.</p></div></div></div></div>
-                <div class="section"><div class="container"><h2>Frequently Asked Questions</h2><div class="faq-container"><div class="faq-item"><div class="faq-question">Do I need any technical skills?</div><div class="faq-answer"><p>Absolutely not! DukaanLaunch is designed for everyone. If you can use a smartphone, you can build a beautiful online store with our platform.</p></div></div><div class="faq-item"><div class="faq-question">What payment methods can I accept?</div><div class="faq-answer"><p>You can accept all major payment methods including UPI (Google Pay, PhonePe, etc.), Credit Cards, Debit Cards, and Net Banking.</p></div></div><div class="faq-item"><div class="faq-question">Can I use my own domain name?</div><div class="faq-answer"><p>Yes! On our Growth and Advanced plans, you can easily connect your own custom domain name (e.g., www.yourshop.in).</p></div></div></div></div></div>
-            </section>
+            <section id="home" class="page-section active"><div class="hero"><div class="container"><h1>अपनी दुकान, अब ऑनलाइन.</h1><p>Go from the Clock Tower market to customers across India. Create your beautiful online store in minutes. No coding required.</p><a href="#" class="btn open-modal-btn">Start Your 14-Day Free Trial</a></div></div><div class="section"><div class="container"><h2>Ready in 3 Simple Steps</h2><div class="steps"><div class="step"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.098 19.902a3.75 3.75 0 005.304 0l5.304-5.304a3.75 3.75 0 000-5.304l-5.304-5.304a3.75 3.75 0 00-5.304 0L4.098 8.25"/></svg><h3>1. Choose a Design</h3><p>Pick from beautiful templates inspired by Rajasthani art and modern design.</p></div><div class="step"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/></svg><h3>2. Add Your Products</h3><p>Upload photos of your handicrafts, spices, or textiles with a few clicks.</p></div><div class="step"><svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/></svg><h3>3. Start Selling</h3><p>Accept payments through UPI, cards, and more. We handle the tech, you handle the business.</p></div></div></div></div><div class="section"><div class="container"><h2>Frequently Asked Questions</h2><div class="faq-container"><div class="faq-item"><div class="faq-question">Do I need any technical skills?</div><div class="faq-answer"><p>Absolutely not! DukaanLaunch is designed for everyone. If you can use a smartphone, you can build a beautiful online store with our platform.</p></div></div><div class="faq-item"><div class="faq-question">What payment methods can I accept?</div><div class="faq-answer"><p>You can accept all major payment methods including UPI (Google Pay, PhonePe, etc.), Credit Cards, Debit Cards, and Net Banking.</p></div></div><div class="faq-item"><div class="faq-question">Can I use my own domain name?</div><div class="faq-answer"><p>Yes! On our Growth and Advanced plans, you can easily connect your own custom domain name (e.g., www.yourshop.in).</p></div></div></div></div></div></section>
             <section id="features" class="page-section"><div class="page-header"><div class="container"><h1>Everything You Need To Sell Online</h1><p>From a beautiful storefront to powerful back-office tools, we've got you covered.</p></div></div><div class="section"><div class="container"><h2>Our Core Features</h2><div class="features-grid"><div class="feature-card"><h3>Beautiful Storefronts</h3><p>Choose from a range of customizable themes that are designed to look great on any device.</p></div><div class="feature-card"><h3>Unlimited Products</h3><p>Add as many products as you want. We support product variations, rich descriptions, and multiple images.</p></div><div class="feature-card"><h3>Secure Payments</h3><p>Accept payments from all major Indian payment methods, including UPI, Net Banking, and all cards.</p></div><div class="feature-card"><h3>Integrated Shipping</h3><p>Connect with local shipping partners like Delhivery and Shiprocket to manage orders and print labels.</p></div><div class="feature-card"><h3>Marketing Tools</h3><p>Run discount codes, and special offers. Our platform is SEO-optimized to help you get found on Google.</p></div><div class="feature-card"><h3>Powerful Analytics</h3><p>Understand your customers and track your sales with an easy-to-use dashboard and sales reports.</p></div></div></div></div></section>
             <section id="pricing" class="page-section"><div class="page-header"><div class="container"><h1>Find the Perfect Plan</h1><p>Start for free and scale as you grow. All plans include a 14-day free trial.</p></div></div><div class="section"><div class="container"><div class="pricing-grid"><div class="price-card"><h3>Basic</h3><div class="price">₹999<span>/month</span></div><p>Perfect for individuals and new businesses testing their ideas.</p><ul><li>Up to 50 products</li><li>2% Transaction Fee</li><li>All Payment Gateways</li><li>Email Support</li></ul><a href="#" class="btn open-modal-btn">Start Trial</a></div><div class="price-card popular"><h3>Growth</h3><div class="price">₹2499<span>/month</span></div><p>For growing businesses looking to scale their online presence.</p><ul><li>Unlimited Products</li><li>1% Transaction Fee</li><li>Custom Domain</li><li>Live Chat Support</li></ul><a href="#" class="btn open-modal-btn">Start Trial</a></div><div class="price-card"><h3>Advanced</h3><div class="price">₹5999<span>/month</span></div><p>Advanced features and analytics for established sellers.</p><ul><li>Unlimited Products</li><li>0.5% Transaction Fee</li><li>Advanced Analytics</li><li>Priority Phone Support</li></ul><a href="#" class="btn open-modal-btn">Start Trial</a></div></div></div></div></section>
             <section id="about" class="page-section"><div class="page-header"><div class="container"><h1>Made in Jodhpur, for India.</h1><p>We are a passionate team dedicated to empowering local businesses and artisans to thrive in the digital world.</p></div></div><div class="section"><div class="container" style="max-width: 800px; text-align: left;"><h2>Our Story</h2><p>DukaanLaunch was born in the vibrant streets of Jodhpur. We saw our friends, family, and countless talented artisans creating beautiful products but struggling to reach a wider audience beyond their local markets. The complexity and cost of existing e-commerce platforms were major barriers.</p><p>We decided to change that. Our mission is to provide a simple, affordable, and powerful platform that helps any Indian entrepreneur take their business online. We believe in the power of local commerce and are committed to building tools that help our merchants succeed.</p></div></div></section>
             <section id="contact" class="page-section"><div class="page-header"><div class="container"><h1>Get In Touch</h1><p>We'd love to hear from you! Whether you have a question about features, pricing, or anything else, our team is ready to answer all your questions.</p></div></div><div class="section"><div class="container"><div class="contact-grid"><div class="contact-form"><h3>Send us a Message</h3><form action="#"><div class="form-group"><label for="name">Full Name</label><input type="text" id="name" name="name" required></div><div class="form-group"><label for="email">Email Address</label><input type="email" id="email" name="email" required></div><div class="form-group"><label for="message">Message</label><textarea id="message" name="message" rows="6" required></textarea></div><button type="submit" class="btn">Send Message</button></form></div><div class="contact-details"><h3>Our Location</h3><p>Sardarpura, Jodhpur, Rajasthan 342001, India</p><p><strong>Email:</strong> support@dukaanlaunch.com</p><p><strong>Phone:</strong> +91 987 654 3210</p><div class="map-container"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d57273.29792080356!2d72.9800310566406!3d26.277274500000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39418c4847a2f51b%3A0x33718722a348b65e!2sSardarpura%2C%20Jodhpur%2C%20Rajasthan!5e0!3m2!1sen!2sin!4v1664115535355!5m2!1sen!2sin" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div></div></div></div></div></section>
         </main>
         
-        <footer>
-            <div class="container"><p>© 2025 DukaanLaunch. Made with ❤️ in Jodhpur.</p></div>
-        </footer>
+        <footer><div class="container"><p>© 2025 DukaanLaunch. Made with ❤️ in Jodhpur.</p></div></footer>
     </div>
 
     <div id="authModal" class="modal">
         <div class="modal-content">
-            <div class="modal-promo">
-                <svg class="promo-illustration" viewBox="0 0 293 221" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_1_2)"><path d="M73.532 220.5H292.5V81.543L229.431 0.5H0.5V220.5H41.5" stroke="#a0b9d1" stroke-width="1"/><rect x="41.5" y="160.5" width="32" height="60" fill="#e0e8f4" stroke="#a0b9d1"/><path d="M129 119.5H233" stroke="#a0b9d1"/><path d="M129 144.5H233" stroke="#a0b9d1"/><path d="M129 169.5H195" stroke="#a0b9d1"/><rect x="233" y="108" width="32" height="113" rx="3" fill="var(--secondary-color-start)"/><path d="M249 118V206" stroke="white" stroke-width="2" stroke-linecap="round"/><path d="M255 124H243" stroke="white" stroke-width="2" stroke-linecap="round"/><circle cx="106" cy="116" r="16" fill="#e0e8f4" stroke="#a0b9d1"/><path d="M106 100V116L117 122" stroke="#a0b9d1"/><path d="M229.5 0.5V81.5H292.5" stroke="#a0b9d1"/></g><defs><clipPath id="clip0_1_2"><rect width="293" height="221" fill="white"/></clipPath></defs></svg>
-                <h2>Build Your Brand</h2>
-                <p>Join thousands of local entrepreneurs taking their business online.</p>
-            </div>
-            <div class="modal-form">
-                <span class="close-btn">×</span>
-                <div class="auth-tabs"><button id="loginTab" class="active">Login</button><button id="signupTab">Sign Up</button></div>
-                <div id="loginForm" class="form-container active"><form><div class="form-group"><input type="email" placeholder="Email Address" required><div class="input-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/></svg></div></div><div class="form-group"><input type="password" placeholder="Password" required><div class="input-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/></svg></div></div><button type="submit" class="btn auth-submit-btn">Login</button></form><div class="form-switch"><p>Don't have an account? <a id="showSignup">Sign Up</a></p></div></div>
-                <div id="signupForm" class="form-container"><form><div class="form-group"><input type="email" placeholder="Email Address" required><div class="input-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/></svg></div></div><div class="form-group"><input type="password" placeholder="Create Password" required><div class="input-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/></svg></div></div><button type="submit" class="btn auth-submit-btn">Create Account</button></form><div class="form-switch"><p>Already have an account? <a id="showLogin">Login</a></p></div></div>
-            </div>
+            <div class="modal-promo"><svg class="promo-illustration" viewBox="0 0 293 221" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_1_2)"><path d="M73.532 220.5H292.5V81.543L229.431 0.5H0.5V220.5H41.5" stroke="#a0b9d1" stroke-width="1"/><rect x="41.5" y="160.5" width="32" height="60" fill="#e0e8f4" stroke="#a0b9d1"/><path d="M129 119.5H233" stroke="#a0b9d1"/><path d="M129 144.5H233" stroke="#a0b9d1"/><path d="M129 169.5H195" stroke="#a0b9d1"/><rect x="233" y="108" width="32" height="113" rx="3" fill="var(--secondary-color-start)"/><path d="M249 118V206" stroke="white" stroke-width="2" stroke-linecap="round"/><path d="M255 124H243" stroke="white" stroke-width="2" stroke-linecap="round"/><circle cx="106" cy="116" r="16" fill="#e0e8f4" stroke="#a0b9d1"/><path d="M106 100V116L117 122" stroke="#a0b9d1"/><path d="M229.5 0.5V81.5H292.5" stroke="#a0b9d1"/></g><defs><clipPath id="clip0_1_2"><rect width="293" height="221" fill="white"/></clipPath></defs></svg><h2>Build Your Brand</h2><p>Join thousands of local entrepreneurs taking their business online.</p></div>
+            <div class="modal-form"><span class="close-btn">×</span><div class="auth-tabs"><button id="loginTab" class="active">Login</button><button id="signupTab">Sign Up</button></div><div id="loginForm" class="form-container active"><form><div class="form-group"><input type="email" placeholder="Email Address" required><div class="input-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/></svg></div></div><div class="form-group"><input type="password" placeholder="Password" required><div class="input-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/></svg></div></div><button type="submit" class="btn auth-submit-btn">Login</button></form><div class="form-switch"><p>Don't have an account? <a id="showSignup">Sign Up</a></p></div></div><div id="signupForm" class="form-container"><form><div class="form-group"><input type="email" placeholder="Email Address" required><div class="input-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z"/></svg></div></div><div class="form-group"><input type="password" placeholder="Create Password" required><div class="input-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/></svg></div></div><button type="submit" class="btn auth-submit-btn">Create Account</button></form><div class="form-switch"><p>Already have an account? <a id="showLogin">Login</a></p></div></div></div>
         </div>
     </div>
-    
-    <section id="onboarding" class="fullscreen-container">
-        <div class="wizard">
-            <div class="progress-bar"><div class="progress-step active" data-step="1"><div class="progress-circle">1</div><div class="progress-label">Store Details</div></div><div class="progress-step" data-step="2"><div class="progress-circle">2</div><div class="progress-label">Choose Theme</div></div></div>
-            <div id="step1" class="wizard-step active"><h2>Tell us about your store</h2><div class="form-group" style="text-align: left;"><label for="storeName" style="font-weight: 500; margin-bottom: 5px; display:block;">Your Store Name</label><input type="text" id="storeName" placeholder="e.g., Jodhpur Handicrafts" required></div><div class="wizard-nav"><button class="btn" id="goToStep2">Next</button></div></div>
-            <div id="step2" class="wizard-step"><h2>Choose a starting theme</h2><p>You can customize everything later.</p><div class="theme-grid"><div class="theme-card"><img src="https://i.imgur.com/g60k462.png" alt="Theme 1"><div class="theme-name">Jodhpur Blues</div></div><div class="theme-card"><img src="https://i.imgur.com/39aA4pf.png" alt="Theme 2"><div class="theme-name">Desert Mirage</div></div><div class="theme-card"><img src="https://i.imgur.com/R38m08h.png" alt="Theme 3"><div class="theme-name">Artisan Kraft</div></div></div><div class="wizard-nav"><button class="btn" id="backToStep1" style="background-image: none; background-color: #777;">Back</button></div></div>
-        </div>
-    </section>
-
-    <section id="dashboard" class="fullscreen-container">
-        <div style="text-align: center;"><h1 id="welcome-message">Welcome!</h1><p>Your store is ready. This is your new dashboard.</p><p style="font-size: 0.9rem; color: #888;">(good day😍).</p><a href="/" class="btn">Go Back to Main Site</a></div>
-    </section>
+    <section id="onboarding" class="fullscreen-container"><div class="wizard"><div class="progress-bar"><div class="progress-step active" data-step="1"><div class="progress-circle">1</div><div class="progress-label">Store Details</div></div><div class="progress-step" data-step="2"><div class="progress-circle">2</div><div class="progress-label">Choose Theme</div></div></div><div id="step1" class="wizard-step active"><h2>Tell us about your store</h2><div class="form-group" style="text-align: left;"><label for="storeName" style="font-weight: 500; margin-bottom: 5px; display:block;">Your Store Name</label><input type="text" id="storeName" placeholder="e.g., Jodhpur Handicrafts" required></div><div class="wizard-nav"><button class="btn" id="goToStep2">Next</button></div></div><div id="step2" class="wizard-step"><h2>Choose a starting theme</h2><p>You can customize everything later.</p><div class="theme-grid"><div class="theme-card"><img src="https://i.imgur.com/g60k462.png" alt="Theme 1"><div class="theme-name">Jodhpur Blues</div></div><div class="theme-card"><img src="https://i.imgur.com/39aA4pf.png" alt="Theme 2"><div class="theme-name">Desert Mirage</div></div><div class="theme-card"><img src="https://i.imgur.com/R38m08h.png" alt="Theme 3"><div class="theme-name">Artisan Kraft</div></div></div><div class="wizard-nav"><button class="btn" id="backToStep1" style="background-image: none; background-color: #777;">Back</button></div></div></div></section>
+    <section id="dashboard" class="fullscreen-container"><div style="text-align: center;"><h1 id="welcome-message">Welcome!</h1><p>Your store is ready. This is your new dashboard.</p><p style="font-size: 0.9rem; color: #888;">(This is the end of the front-end demonstration).</p><a href="/" class="btn">Go Back to Main Site</a></div></section>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // --- Element Selectors ---
             const mainWebsite = document.getElementById('main-website');
-            const navLinks = document.querySelectorAll('.nav-link');
+            const allNavLinks = document.querySelectorAll('.nav-link');
             const pageSections = document.querySelectorAll('.page-section');
-            function showPage(targetId) { pageSections.forEach(section => section.classList.remove('active')); const targetSection = document.getElementById(targetId); if (targetSection) targetSection.classList.add('active'); navLinks.forEach(link => { link.classList.remove('active'); if (link.getAttribute('data-target') === targetId) link.classList.add('active'); }); }
-            navLinks.forEach(link => { link.addEventListener('click', function(event) { const targetId = this.getAttribute('data-target'); if (targetId) { event.preventDefault(); showPage(targetId); window.scrollTo(0, 0); } }); });
             const faqItems = document.querySelectorAll('.faq-item');
-            faqItems.forEach(item => { const question = item.querySelector('.faq-question'); question.addEventListener('click', () => { if (item.classList.contains('active')) { item.classList.remove('active'); } else { faqItems.forEach(otherItem => otherItem.classList.remove('active')); item.classList.add('active'); } }); });
             const modal = document.getElementById('authModal');
             const openModalBtns = document.querySelectorAll('.open-modal-btn');
             const closeModalBtn = document.querySelector('.close-btn');
-            const loginForm = document.getElementById('loginForm'); const signupForm = document.getElementById('signupForm'); const loginTab = document.getElementById('loginTab'); const signupTab = document.getElementById('signupTab'); const showSignupLink = document.getElementById('showSignup'); const showLoginLink = document.getElementById('showLogin');
-            const openModal = () => modal.style.display = 'flex'; const closeModal = () => modal.style.display = 'none';
-            function showForm(formToShow) { if (formToShow === 'signup') { loginForm.classList.remove('active'); signupForm.classList.add('active'); loginTab.classList.remove('active'); signupTab.classList.add('active'); } else { signupForm.classList.remove('active'); loginForm.classList.add('active'); signupTab.classList.remove('active'); loginTab.classList.add('active'); } }
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+            const loginTab = document.getElementById('loginTab');
+            const signupTab = document.getElementById('signupTab');
+            const showSignupLink = document.getElementById('showSignup');
+            const showLoginLink = document.getElementById('showLogin');
+            const authSubmitBtns = document.querySelectorAll('.auth-submit-btn');
+            const onboardingSection = document.getElementById('onboarding');
+            const dashboardSection = document.getElementById('dashboard');
+            const step1 = document.getElementById('step1');
+            const step2 = document.getElementById('step2');
+            const goToStep2Btn = document.getElementById('goToStep2');
+            const backToStep1Btn = document.getElementById('backToStep1');
+            const themeCards = document.querySelectorAll('.theme-card');
+            const progressSteps = document.querySelectorAll('.progress-step');
+            const hamburgerBtn = document.getElementById('hamburger-btn');
+            const mainNav = document.getElementById('main-nav');
+
+            // --- Hamburger Menu Logic ---
+            hamburgerBtn.addEventListener('click', () => {
+                document.body.classList.toggle('nav-open');
+                mainNav.classList.toggle('open');
+            });
+
+            // --- Page Navigation Logic ---
+            function showPage(targetId) {
+                pageSections.forEach(section => section.classList.remove('active'));
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) targetSection.classList.add('active');
+                allNavLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-target') === targetId) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            allNavLinks.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    const targetId = this.getAttribute('data-target');
+                    if (targetId) {
+                        event.preventDefault();
+                        showPage(targetId);
+                        window.scrollTo(0, 0);
+                        // Close mobile menu if open
+                        if (mainNav.classList.contains('open')) {
+                            document.body.classList.remove('nav-open');
+                            mainNav.classList.remove('open');
+                        }
+                    }
+                });
+            });
+
+            // --- FAQ Accordion Logic ---
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', () => {
+                    if (item.classList.contains('active')) {
+                        item.classList.remove('active');
+                    } else {
+                        faqItems.forEach(otherItem => otherItem.classList.remove('active'));
+                        item.classList.add('active');
+                    }
+                });
+            });
+
+            // --- Modal Logic ---
+            const openModal = () => modal.style.display = 'flex';
+            const closeModal = () => modal.style.display = 'none';
+            function showForm(formToShow) {
+                if (formToShow === 'signup') {
+                    loginForm.classList.remove('active'); signupForm.classList.add('active');
+                    loginTab.classList.remove('active'); signupTab.classList.add('active');
+                } else {
+                    signupForm.classList.remove('active'); loginForm.classList.add('active');
+                    signupTab.classList.remove('active'); loginTab.classList.add('active');
+                }
+            }
             openModalBtns.forEach(btn => btn.addEventListener('click', (e) => { e.preventDefault(); openModal(); }));
             closeModalBtn.addEventListener('click', closeModal);
             window.addEventListener('click', (event) => { if (event.target === modal) closeModal(); });
             window.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeModal(); });
-            loginTab.addEventListener('click', () => showForm('login')); signupTab.addEventListener('click', () => showForm('signup'));
-            showSignupLink.addEventListener('click', () => showForm('signup')); showLoginLink.addEventListener('click', () => showForm('login'));
-            const authSubmitBtns = document.querySelectorAll('.auth-submit-btn');
-            const onboardingSection = document.getElementById('onboarding');
-            const dashboardSection = document.getElementById('dashboard');
-            const step1 = document.getElementById('step1'); const step2 = document.getElementById('step2');
-            const goToStep2Btn = document.getElementById('goToStep2'); const backToStep1Btn = document.getElementById('backToStep1');
-            const themeCards = document.querySelectorAll('.theme-card');
-            const progressSteps = document.querySelectorAll('.progress-step');
-            function updateProgress(stepNum) { progressSteps.forEach(step => { step.classList.remove('active'); if(step.dataset.step == stepNum) { step.classList.add('active'); } }); }
+            loginTab.addEventListener('click', () => showForm('login'));
+            signupTab.addEventListener('click', () => showForm('signup'));
+            showSignupLink.addEventListener('click', () => showForm('signup'));
+            showLoginLink.addEventListener('click', () => showForm('login'));
+
+            // --- Onboarding Flow Logic ---
+            function updateProgress(stepNum) {
+                progressSteps.forEach(step => {
+                    step.classList.remove('active');
+                    if(step.dataset.step == stepNum) {
+                        step.classList.add('active');
+                    }
+                });
+            }
             goToStep2Btn.addEventListener('click', () => { step1.classList.remove('active'); step2.classList.add('active'); updateProgress(2); });
             backToStep1Btn.addEventListener('click', () => { step2.classList.remove('active'); step1.classList.add('active'); updateProgress(1); });
             themeCards.forEach(card => {
@@ -265,7 +378,14 @@
                     }, 500);
                 });
             });
-            authSubmitBtns.forEach(btn => { btn.addEventListener('click', (e) => { e.preventDefault(); closeModal(); mainWebsite.style.display = 'none'; onboardingSection.style.display = 'flex'; }); });
+            authSubmitBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    closeModal();
+                    mainWebsite.style.display = 'none';
+                    onboardingSection.style.display = 'flex';
+                });
+            });
         });
     </script>
 </body>
